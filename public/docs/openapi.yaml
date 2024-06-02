@@ -1,0 +1,616 @@
+openapi: 3.0.3
+info:
+  title: 'Laravel API Course'
+  description: 'A course for developing REST APIs with Laravel'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+paths:
+  /api/register:
+    post:
+      summary: 'Register User'
+      operationId: registerUser
+      description: 'This Api is used to register a user'
+      parameters: []
+      responses:
+        201:
+          description: 'Registering a user'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'User was successfully registered'
+                  token: 1|w21Al97p6mBb9bbyblCEUqgEzXaFzAdbwAEGoYvg1c454909
+                properties:
+                  message:
+                    type: string
+                    example: 'User was successfully registered'
+                  token:
+                    type: string
+                    example: 1|w21Al97p6mBb9bbyblCEUqgEzXaFzAdbwAEGoYvg1c454909
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the user.'
+                  example: Admin
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: admin@admin.com
+                password:
+                  type: string
+                  description: 'The password of the user.'
+                  example: test1234
+                confirm_password:
+                  type: string
+                  description: 'The password of the user.'
+                  example: test1234
+              required:
+                - name
+                - email
+                - password
+                - confirm_password
+      security: []
+  /api/login:
+    post:
+      summary: 'Login User'
+      operationId: loginUser
+      description: 'This Api is used to login a user'
+      parameters: []
+      responses:
+        200:
+          description: 'Login a user'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Login was successful'
+                  user:
+                    id: 1
+                    name: Admin
+                    email: admin@admin.com
+                    products: []
+                  token: 2|VjVtD7L4S50TKzSycnSq1YFj6NQWW6QbNPZ1dssz85c6ee28
+                properties:
+                  message:
+                    type: string
+                    example: 'Login was successful'
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: Admin
+                      email:
+                        type: string
+                        example: admin@admin.com
+                      products:
+                        type: array
+                        example: []
+                  token:
+                    type: string
+                    example: 2|VjVtD7L4S50TKzSycnSq1YFj6NQWW6QbNPZ1dssz85c6ee28
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: admin@admin.com
+                password:
+                  type: string
+                  description: 'The password of the user.'
+                  example: test1234
+              required:
+                - email
+                - password
+      security: []
+  /api/logout:
+    post:
+      summary: 'Logout User'
+      operationId: logoutUser
+      description: 'This Api is used to logout a user'
+      parameters: []
+      responses:
+        200:
+          description: 'Logout User'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'User logged out successfully'
+                properties:
+                  message:
+                    type: string
+                    example: 'User logged out successfully'
+      tags:
+        - Authentication
+  '/api/{fallbackPlaceholder}':
+    get:
+      summary: ''
+      operationId: getApiFallbackPlaceholder
+      description: ''
+      parameters: []
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: 'Record was Not Found'
+                properties:
+                  error:
+                    type: string
+                    example: 'Record was Not Found'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: fallbackPlaceholder
+        description: ''
+        example: ''
+        required: true
+        schema:
+          type: string
+  /api/products:
+    get:
+      summary: 'Get Products'
+      operationId: getProducts
+      description: 'This endpoint allows you to get all products.'
+      parameters: []
+      responses:
+        200:
+          description: 'Get All Products'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  -
+                    id: 1
+                    productName: Shirt
+                    productPrice: $600
+                    discountedPrice: $540
+                    discount: $60
+                  -
+                    id: 2
+                    productName: Bag
+                    productPrice: $400
+                    discountedPrice: $360
+                    discount: $40
+      tags:
+        - Products
+    post:
+      summary: 'Add Product'
+      operationId: addProduct
+      description: 'This endpoint allows you to add a product.'
+      parameters: []
+      responses:
+        201:
+          description: 'Add a Product'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  productName: Bag
+                  productPrice: $400
+                  discountedPrice: $360
+                  discount: $40
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  productName:
+                    type: string
+                    example: Bag
+                  productPrice:
+                    type: string
+                    example: $400
+                  discountedPrice:
+                    type: string
+                    example: $360
+                  discount:
+                    type: string
+                    example: $40
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  description: 'The user_id for the User of product.'
+                  example: '3'
+                name:
+                  type: string
+                  description: 'The name of the product.'
+                  example: Bag
+                price:
+                  type: integer
+                  description: 'The price of the product.'
+                  example: 200
+                description:
+                  type: string
+                  description: 'The description of the user.'
+                  example: 'Blue Bag'
+              required:
+                - user_id
+                - name
+                - price
+                - description
+  '/api/products/{id}':
+    get:
+      summary: 'Get Product'
+      operationId: getProduct
+      description: 'This endpoint allows you to get a product.'
+      parameters: []
+      responses:
+        200:
+          description: 'Get a Product'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 2
+                  productName: Bag
+                  productPrice: $400
+                  discountedPrice: $360
+                  discount: $40
+                properties:
+                  id:
+                    type: integer
+                    example: 2
+                  productName:
+                    type: string
+                    example: Bag
+                  productPrice:
+                    type: string
+                    example: $400
+                  discountedPrice:
+                    type: string
+                    example: $360
+                  discount:
+                    type: string
+                    example: $40
+      tags:
+        - Products
+    put:
+      summary: 'Update Product'
+      operationId: updateProduct
+      description: 'This endpoint allows you to update a product.'
+      parameters: []
+      responses:
+        200:
+          description: 'Update a Product'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  productName: Shirt
+                  productPrice: $600
+                  discountedPrice: $540
+                  discount: $60
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  productName:
+                    type: string
+                    example: Shirt
+                  productPrice:
+                    type: string
+                    example: $600
+                  discountedPrice:
+                    type: string
+                    example: $540
+                  discount:
+                    type: string
+                    example: $60
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the product.'
+                  example: Shirt
+                price:
+                  type: integer
+                  description: 'The price of the product.'
+                  example: 600
+                description:
+                  type: string
+                  description: 'The description of the user.'
+                  example: White
+                user_id:
+                  type: string
+                  description: 'The user_id for the User of product.'
+                  example: '3'
+              required:
+                - name
+                - price
+                - description
+    delete:
+      summary: 'Delete Product'
+      operationId: deleteProduct
+      description: 'This endpoint allows you to delete a product.'
+      parameters: []
+      responses:
+        204:
+          description: 'Delete a Product'
+      tags:
+        - Products
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the product.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  /api/users:
+    get:
+      summary: 'Get Users'
+      operationId: getUsers
+      description: 'This endpoint allows you to get all users.'
+      parameters: []
+      responses:
+        200:
+          description: 'Get Users'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  -
+                    id: 1
+                    name: Admin
+                    email: admin@admin.com
+                    products:
+                      -
+                        id: 1
+                        productName: Shirt
+                        productPrice: $600
+                        discountedPrice: $540
+                        discount: $60
+                      -
+                        id: 3
+                        productName: Bed
+                        productPrice: $6000
+                        discountedPrice: $5400
+                        discount: $600
+                  -
+                    id: 3
+                    name: User
+                    email: user@user.com
+                    products: []
+      tags:
+        - Users
+    post:
+      summary: 'Add User'
+      operationId: addUser
+      description: 'This endpoint allows you to add a user.'
+      parameters: []
+      responses:
+        201:
+          description: 'Add a User'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 3
+                  name: User
+                  email: user@user.com
+                  products: []
+                properties:
+                  id:
+                    type: integer
+                    example: 3
+                  name:
+                    type: string
+                    example: User
+                  email:
+                    type: string
+                    example: user@user.com
+                  products:
+                    type: array
+                    example: []
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the user.'
+                  example: User
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: user@user.com
+                password:
+                  type: string
+                  description: 'The password of the user.'
+                  example: test1234
+              required:
+                - name
+                - email
+                - password
+  '/api/users/{id}':
+    get:
+      summary: 'Get User'
+      operationId: getUser
+      description: 'This endpoint allows you to get a user.'
+      parameters: []
+      responses:
+        200:
+          description: 'Add a User'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 3
+                  name: User
+                  email: user@user.com
+                  products: []
+                properties:
+                  id:
+                    type: integer
+                    example: 3
+                  name:
+                    type: string
+                    example: User
+                  email:
+                    type: string
+                    example: user@user.com
+                  products:
+                    type: array
+                    example: []
+      tags:
+        - Users
+    put:
+      summary: 'Update User'
+      operationId: updateUser
+      description: 'This endpoint allows you to update a user.'
+      parameters: []
+      responses:
+        200:
+          description: 'Update a User'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 3
+                  name: UpdatedUser
+                  email: user@updated.com
+                  products: []
+                properties:
+                  id:
+                    type: integer
+                    example: 3
+                  name:
+                    type: string
+                    example: UpdatedUser
+                  email:
+                    type: string
+                    example: user@updated.com
+                  products:
+                    type: array
+                    example: []
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the user.'
+                  example: UpdatedUser
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: user@updated.com
+                password:
+                  type: string
+                  description: 'The password of the user.'
+                  example: test123456
+              required:
+                - name
+                - email
+                - password
+    delete:
+      summary: 'Delete User'
+      operationId: deleteUser
+      description: 'This endpoint allows you to delete a user.'
+      parameters: []
+      responses:
+        204:
+          description: 'Delete a User'
+      tags:
+        - Users
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user.'
+        example: 3
+        required: true
+        schema:
+          type: integer
+tags:
+  -
+    name: Authentication
+    description: "\nAPIs for managing authentication"
+  -
+    name: Endpoints
+    description: ''
+  -
+    name: Products
+    description: "\nAPIs for managing products"
+  -
+    name: Users
+    description: "\nAPIs for managing users"
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: 'You can retrieve your token by registering a new user via the register endpoint</b>.'
+security:
+  -
+    default: []
